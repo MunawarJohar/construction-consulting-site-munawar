@@ -330,6 +330,67 @@
       box-shadow: 0 20px 28px -8px rgba(0, 0, 0, 0.35);
     }
 
+    /* Clickable hero: invisible full-area link sits above the video/overlay
+       and below the text. Text is click-through; only the buttons catch clicks. */
+    .hero-video-link {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      cursor: pointer;
+    }
+
+    .hero-video-link:focus-visible {
+      outline: 3px solid var(--accent);
+      outline-offset: -6px;
+    }
+
+    .hero-inner {
+      pointer-events: none;
+    }
+
+    .hero-inner .btn-primary,
+    .hero-inner .btn-ghost {
+      pointer-events: auto;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.9rem;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .btn-ghost {
+      padding: 0.85rem 1.8rem;
+      border-radius: 60px;
+      border: 2px solid rgba(255, 255, 255, 0.85);
+      background: rgba(0, 0, 0, 0.25);
+      color: #fff;
+      text-transform: uppercase;
+      font-weight: 700;
+      letter-spacing: 0.08em;
+      font-size: 0.9rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+      transition: var(--transition);
+      backdrop-filter: blur(2px);
+    }
+
+    .btn-ghost:hover {
+      background: #fff;
+      color: #1a1a1a;
+      transform: translateY(-3px);
+    }
+
+    @media (max-width: 768px) {
+      .btn-ghost {
+        padding: 0.7rem 1.4rem;
+        font-size: 0.85rem;
+      }
+    }
+
     @media (max-width: 768px) {
       .hero {
         height: 70vh;
@@ -1155,7 +1216,11 @@
     }
 
     /* ===============================
-       SCOTCYD VIDEO SERIES
+       SCOTCYD — LEARN WITH SCOTCYD
+       Left: one info card (cartoon + combined copy + follow links).
+       Right: the latest episodes as an even row of vertical videos.
+       Both columns stretch to the same height so the section reads as one
+       balanced block instead of one small video next to a tall card.
        =============================== */
     #scotcyd {
       background: #171c1a;
@@ -1170,32 +1235,122 @@
       background: var(--accent);
     }
 
-    .scotcyd-intro {
-      max-width: 720px;
-      margin: 0 auto 2.5rem;
-      text-align: center;
-      color: #c4c9d4;
+    .scotcyd-layout {
+      display: grid;
+      grid-template-columns: minmax(300px, 380px) minmax(0, 1fr);
+      gap: 2rem;
+      align-items: stretch;
     }
 
-    /* Two-column row: video on the left, cartoon image + copy on the right */
-    .scotcyd-layout {
+    /* ---- Left card ---- */
+    .scotcyd-card {
+      display: flex;
+      flex-direction: column;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: var(--radius);
+      overflow: hidden;
+    }
+
+    .scotcyd-figure {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      overflow: hidden;
+      background: linear-gradient(135deg, #232b25, #171c1a);
+      flex: 0 0 auto;
+    }
+
+    .scotcyd-cartoon-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .scotcyd-text {
+      display: flex;
+      flex-direction: column;
+      gap: 1.25rem;
+      padding: 1.5rem;
+      flex: 1 1 auto;
+      justify-content: space-between;
+    }
+
+    .scotcyd-text p {
+      color: #c4c9d4;
+      margin: 0;
+    }
+
+    .platform-links {
       display: flex;
       flex-wrap: wrap;
-      gap: 2.5rem;
+      gap: 0.6rem;
+    }
+
+    .platform-btn {
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
-      margin-top: 2rem;
+      gap: 0.5rem;
+      padding: 0.55rem 0.95rem;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(255, 255, 255, 0.14);
+      font-size: 0.82rem;
+      font-weight: 600;
+      transition: var(--transition);
     }
 
-    /* Left column — video, sized so it doesn't dwarf the right side */
-    .scotcyd-video-col {
-      flex: 0 0 260px;
-      max-width: 260px;
-      width: 100%;
+    .platform-btn:hover {
+      background: var(--accent);
+      color: #1a1a1a;
     }
 
-    /* 9:16 vertical ratio box. box-sizing:border-box + padding-top:0 keeps
-       this from ever stacking with older padding-hack aspect ratio rules. */
+    .icon-svg {
+      flex: 0 0 auto;
+      display: inline-block;
+      vertical-align: -2px;
+    }
+
+    /* ---- Right: episodes ---- */
+    .scotcyd-episodes {
+      display: flex;
+      flex-direction: column;
+      min-width: 0;
+    }
+
+    .scotcyd-episodes-label {
+      font-size: 0.78rem;
+      font-weight: 700;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin: 0 0 0.9rem;
+    }
+
+    .episode-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 1.1rem;
+      flex: 1 1 auto;
+      align-items: start;
+    }
+
+    .episode {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+      min-width: 0;
+    }
+
+    .episode-title {
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #e7ebf2;
+      line-height: 1.35;
+      margin: 0;
+    }
+
+    /* 9:16 vertical ratio box (these are Shorts). */
     .video-embed-wrap {
       position: relative;
       display: block;
@@ -1271,89 +1426,86 @@
       background: var(--accent);
     }
 
-    /* Right column — a balanced card: cartoon image next to the description */
-    .scotcyd-side {
-      flex: 1 1 420px;
-      max-width: 540px;
-      display: flex;
-      flex-direction: row;
-      align-items: flex-start;
-      gap: 1.5rem;
+    /* "More episodes" tile — keeps the row full and gives a clear next step */
+    .episode-more {
+      align-self: stretch;
+      min-height: 260px;
+      margin-bottom: 1.9rem; /* matches the episode title row so the tile lines up with the videos */
+      border-radius: var(--radius);
+      border: 1.5px dashed rgba(255, 255, 255, 0.22);
       background: rgba(255, 255, 255, 0.03);
-      border: 1px solid rgba(255, 255, 255, 0.08);
-      border-radius: 16px;
-      padding: 1.75rem;
-    }
-
-    .scotcyd-cartoon-img {
-      flex: 0 0 170px;
-      width: 170px;
-      height: auto;
-      border-radius: 12px;
-      display: block;
-    }
-
-    .scotcyd-text {
-      flex: 1 1 200px;
       display: flex;
       flex-direction: column;
-      gap: 0.85rem;
-      min-width: 0;
-    }
-
-    .scotcyd-text h3 {
-      margin: 0;
-    }
-
-    .scotcyd-text p {
-      color: #c4c9d4;
-      margin: 0;
-    }
-
-    .platform-links {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-    }
-
-    .platform-btn {
-      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 0.65rem 1.1rem;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.08);
-      border: 1px solid rgba(255, 255, 255, 0.14);
-      font-size: 0.85rem;
+      justify-content: center;
+      gap: 0.8rem;
+      text-align: center;
+      padding: 1rem;
+      color: #e7ebf2;
       font-weight: 600;
       transition: var(--transition);
     }
 
-    .platform-btn:hover {
-      background: var(--accent);
-      color: #1a1a1a;
+    .episode-more i {
+      font-size: 2.2rem;
+      color: var(--accent);
     }
 
-    @media (max-width: 900px) {
+    .episode-more:hover {
+      background: rgba(124, 179, 66, 0.14);
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    /* Tablet: stack the card on top; episodes below in a scrollable row */
+    @media (max-width: 960px) {
       .scotcyd-layout {
+        grid-template-columns: 1fr;
+      }
+
+      .scotcyd-card {
+        flex-direction: row;
+      }
+
+      .scotcyd-figure {
+        width: 42%;
+        aspect-ratio: auto;
+        min-height: 220px;
+      }
+    }
+
+    /* Phone: card stacks vertically; episodes swipe sideways */
+    @media (max-width: 640px) {
+      .scotcyd-card {
         flex-direction: column;
-        align-items: center;
-        text-align: left;
       }
 
-      .scotcyd-video-col {
-        flex: 0 0 auto;
-        max-width: 260px;
+      .scotcyd-figure {
+        width: 100%;
+        aspect-ratio: 3 / 2;
+        min-height: 0;
       }
 
-      .scotcyd-side {
-        flex-direction: column;
-        max-width: 100%;
+      .episode-grid {
+        display: flex;
+        overflow-x: auto;
+        scroll-snap-type: x mandatory;
+        gap: 0.9rem;
+        padding-bottom: 0.6rem;
+        -webkit-overflow-scrolling: touch;
       }
 
-      .scotcyd-cartoon-img {
-        flex: 0 0 auto;
-        width: 140px;
+      .episode,
+      .episode-more {
+        flex: 0 0 62%;
+        scroll-snap-align: start;
+      }
+
+      .episode-more {
+        flex: 0 0 62%;
+        aspect-ratio: 9 / 16;
+        align-self: auto;
+        margin-bottom: 0;
       }
     }
 

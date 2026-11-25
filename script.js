@@ -253,29 +253,99 @@
     }, { passive: true });
   })();
 
-  
+/* =====================================================================
+   SCOTCYD — LATEST EPISODES
+   ---------------------------------------------------------------------
+   HOW TO UPDATE: put the newest episode FIRST. The "id" is the 11-character
+   code from the YouTube link  (youtube.com/shorts/<ID>  or  youtu.be/<ID>).
+   The page shows up to 3 episodes plus a "More on YouTube" tile.
+   Entries with an empty id are skipped, so nothing breaks while you fill
+   them in.
+   ===================================================================== */
+const SCOTCYD_EPISODES = [
+  { id: 'lkLgA7loscs', title: 'Latest Episode' },
+  { id: '', title: '' },   // <-- episode 2: paste the YouTube video ID here + a short title
+  { id: '', title: '' }    // <-- episode 3: paste the YouTube video ID here + a short title
+];
+const SCOTCYD_CHANNEL_URL = 'https://www.youtube.com/@scottsdalenz/shorts';
 
-/* ---- ScotCyd video click-to-play facade ---- */
-      // ScotCyd video: click-to-play facade. Injects the real iframe only
-      // once, on first click, using the exact embed markup confirmed from
-      // YouTube's own Share → Embed panel.
-      (function () {
-        const wrap = document.getElementById('scotcydVideoWrap');
-        const btn = document.getElementById('scotcydPlayBtn');
-        if (!wrap || !btn) return;
-        btn.addEventListener('click', () => {
-          const videoId = wrap.dataset.videoId;
-          const iframe = document.createElement('iframe');
-          iframe.src = `https://www.youtube.com/embed/${videoId}?autoplay=1`;
-          iframe.title = 'ScotCyd Series — Latest Episode';
-          iframe.setAttribute('frameborder', '0');
-          iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
-          iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-          iframe.setAttribute('allowfullscreen', '');
-          wrap.innerHTML = '';
-          wrap.appendChild(iframe);
-          if (typeof gaEvent === 'function') {
-            gaEvent('select_content', { content_type: 'video', item_id: videoId });
-          }
-        }, { once: true });
-      })();
+(function renderScotcydEpisodes() {
+  const grid = document.getElementById('episodeGrid');
+  if (!grid) return;
+
+  const episodes = SCOTCYD_EPISODES.filter(e => e && /^[A-Za-z0-9_-]{11}$/.test(e.id)).slice(0, 3);
+
+  grid.innerHTML = '';
+
+  episodes.forEach((ep, i) => {
+    const title = ep.title || ('ScotCyd Episode ' + (i + 1));
+    const card = document.createElement('div');
+    card.className = 'episode';
+    card.innerHTML =
+      '<div class="video-embed-wrap" data-video-id="' + ep.id + '">' +
+        '<button type="button" class="video-thumb-btn" aria-label="Play video: ' + title.replace(/"/g, '&quot;') + '">' +
+          '<img src="https://i.ytimg.com/vi/' + ep.id + '/hqdefault.jpg" alt="' + title.replace(/"/g, '&quot;') + ' thumbnail" loading="lazy">' +
+          '<span class="video-play-icon"><i class="fas fa-play"></i></span>' +
+        '</button>' +
+      '</div>' +
+      '<p class="episode-title"></p>';
+    card.querySelector('.episode-title').textContent = title;
+
+    // Thumbnail fallbacks if the first size is missing
+    const img = card.querySelector('img');
+    const fallbacks = ['mqdefault.jpg', 'default.jpg'];
+    let step = 0;
+    img.addEventListener('error', function () {
+      if (step < fallbacks.length) {
+        img.src = 'https://i.ytimg.com/vi/' + ep.id + '/' + fallbacks[step++];
+      } else {
+        img.style.display = 'none';
+      }
+    });
+
+    // Click-to-play facade: the real YouTube iframe is only added on click
+    const wrap = card.querySelector('.video-embed-wrap');
+    wrap.querySelector('.video-thumb-btn').addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = 'https://www.youtube.com/embed/' + ep.id + '?autoplay=1&rel=0';
+      iframe.title = 'ScotCyd — ' + title;
+      iframe.setAttribute('frameborder', '0');
+      iframe.setAttribute('referrerpolicy', 'strict-origin-when-cross-origin');
+      iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+      iframe.setAttribute('allowfullscreen', '');
+      wrap.innerHTML = '';
+      wrap.appendChild(iframe);
+      if (typeof gaEvent === 'function') {
+        gaEvent('select_content', { content_type: 'video', item_id: ep.id });
+      }
+    }, { once: true });
+
+    grid.appendChild(card);
+  });
+
+  // "More on YouTube" tile — only shown while there are fewer than 3 episodes,
+  // and it stretches across the empty columns so the row always looks full.
+  if (episodes.length >= 3) return;
+  const more = document.createElement('a');
+  more.style.gridColumn = 'span ' + (3 - episodes.length);
+  more.className = 'episode-more';
+  more.href = SCOTCYD_CHANNEL_URL;
+  more.target = '_blank';
+  more.rel = 'noopener noreferrer';
+  more.innerHTML = '<i class="fab fa-youtube"></i><span>More episodes<br>on YouTube</span>';
+  more.addEventListener('click', () => {
+    if (typeof gaEvent === 'function') gaEvent('select_content', { content_type: 'scotcyd_platform', item_id: 'YouTube (more episodes)' });
+  });
+  grid.appendChild(more);
+})();
+
+/* ---- Hero video link tracking ---- */
+(function () {
+  ['heroVideoLink', 'heroWatchBtn'].forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.addEventListener('click', () => {
+      if (typeof gaEvent === 'function') gaEvent('select_content', { content_type: 'hero_video', item_id: 'youtube_4fGqLOlAcLg' });
+    });
+  });
+})();

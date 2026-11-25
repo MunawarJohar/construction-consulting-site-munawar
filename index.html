@@ -76,7 +76,7 @@
     })(window, document, "clarity", "script", "XXXXXXXXXX");
   </script>
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="style.css?v=3">
 </head>
 
 <body>
@@ -112,17 +112,27 @@
 
   <main id="top">
 
-    <!-- HERO -->
+    <!-- HERO
+         The video/background area is clickable and opens Cyd's YouTube video
+         in a new tab (invisible full-area link: .hero-video-link). The text
+         is click-through (pointer-events:none) so a click anywhere on the
+         hero except the two buttons goes to the video. -->
     <section class="hero has-video" id="heroSection">
       <div class="hero-bg"></div>
-      <video class="hero-video" autoplay muted loop playsinline>
+      <video class="hero-video" autoplay muted loop playsinline preload="metadata">
         <source src="hero-video.mov" type="video/mp4">
       </video>
       <div class="hero-overlay"></div>
+      <a class="hero-video-link" id="heroVideoLink" href="https://youtu.be/4fGqLOlAcLg" target="_blank"
+        rel="noopener noreferrer" aria-label="Watch the featured video on YouTube (opens in a new tab)"></a>
       <div class="hero-inner">
         <h1 class="hero-title">Smart. Strong. Steel.</h1>
         <p class="hero-subtitle">Light-gauge steel frame manufacturing, roll-forming expertise, and practical solutions from design through production.</p>
-        <a href="#contact" class="btn-primary">Start Your Project</a>
+        <div class="hero-actions">
+          <a href="#contact" class="btn-primary">Start Your Project</a>
+          <a href="https://youtu.be/4fGqLOlAcLg" target="_blank" rel="noopener noreferrer" class="btn-ghost"
+            id="heroWatchBtn"><i class="fas fa-play"></i> Watch the Video</a>
+        </div>
       </div>
     </section>
 
@@ -252,48 +262,52 @@
        SCOTCYD VIDEO SERIES
        =================================================== -->
 <section id="scotcyd" class="section">
-  <div class="container">
-    <h2 class="section-title">ScotCyd</h2>
-    <p class="scotcyd-intro">Follow Cydney into the shop, onto the jobsite, and behind the roll former for a practical look at light-gauge steel manufacturing. ScotCyd covers equipment, software, tools, production, projects, and lessons from the field.</p>
+      <div class="container">
+        <h2 class="section-title">Learn With ScotCyd</h2>
 
-    <div class="scotcyd-layout">
+        <div class="scotcyd-layout">
 
-      <div class="scotcyd-video-col">
-        <div class="video-embed-wrap" id="scotcydVideoWrap" data-video-id="lkLgA7loscs">
-          <button type="button" class="video-thumb-btn" id="scotcydPlayBtn" aria-label="Play video">
-            <img src="https://i.ytimg.com/vi/lkLgA7loscs/hqdefault.jpg"
-              alt="ScotCyd Series — latest episode thumbnail" loading="lazy"
-              data-fallback-step="0"
-              onerror="var steps=['https://i.ytimg.com/vi/lkLgA7loscs/mqdefault.jpg','https://i.ytimg.com/vi/lkLgA7loscs/default.jpg'];var i=parseInt(this.dataset.fallbackStep,10);if(i&lt;steps.length){this.dataset.fallbackStep=i+1;this.src=steps[i];}else{this.onerror=null;this.style.display='none';}">
-            <span class="video-play-icon"><i class="fas fa-play"></i></span>
-          </button>
-        </div>
-      </div>
+          <!-- LEFT: one balanced card — cartoon, ONE combined description, follow links -->
+          <aside class="scotcyd-card">
+            <div class="scotcyd-figure">
+              <img class="scotcyd-cartoon-img" src="images/ScotCyd-Anime.webp"
+                alt="Cartoon-style illustration of Cydney Skeens with ScotCyd branding, steel framing equipment, and travel gear"
+                width="800" height="533" onerror="this.style.visibility='hidden'">
+            </div>
+            <div class="scotcyd-text">
+              <p>Follow Cydney into the shop, onto the jobsite, and behind the roll former for short, practical videos on how roll-forming technology and light-gauge steel manufacturing actually work &mdash; covering equipment, software, tools, production, projects, and lessons from the field.</p>
+              <div class="platform-links">
+                <a class="platform-btn" href="https://www.youtube.com/@scottsdalenz/shorts" target="_blank"
+                  rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
+                <a class="platform-btn" href="https://www.tiktok.com/@scotcyd" target="_blank"
+                  rel="noopener noreferrer"><svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg> TikTok</a>
+                <a class="platform-btn" href="https://rumble.com/user/scotcyd" target="_blank"
+                  rel="noopener noreferrer"><svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14.4528 13.5458c.8064-.6542.9297-1.8381.2756-2.6445a1.8802 1.8802 0 0 0-.2756-.2756 21.2127 21.2127 0 0 0-4.3121-2.776c-1.066-.51-2.256.2-2.4261 1.414a23.5226 23.5226 0 0 0-.14 5.5021c.116 1.23 1.292 1.964 2.372 1.492a19.6285 19.6285 0 0 0 4.5062-2.704v-.008zm6.9322-5.4002c2.0335 2.228 2.0396 5.637.014 7.8723-2.1445 2.3645-5.0212 3.6585-8.2325 3.7126-3.2112-.054-6.0879-1.348-8.2325-3.7126C2.9 13.7821 2.906 10.3737 4.9395 8.1457 7.0841 5.7712 9.9608 4.4772 13.1721 4.4232c3.2113.054 6.088 1.348 8.2329 3.7226z"/></svg> Rumble</a>
+                <a class="platform-btn" href="https://www.instagram.com/scottsdaleconstructionsystems/reels/"
+                  target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a>
+                <a class="platform-btn" href="https://www.facebook.com/scottsdaleconstructionsystems/reels/"
+                  target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a>
+                <a class="platform-btn" href="https://www.linkedin.com/in/cydney-skeens/" target="_blank"
+                  rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
+              </div>
+            </div>
+          </aside>
 
-      <div class="scotcyd-side">
-        <img class="scotcyd-cartoon-img"
-          src="images/ScotCyd-Anime.webp"
-          alt="Cartoon-style illustration of Cydney Skeens with ScotCyd branding, steel framing equipment, and travel gear"
-          loading="lazy">
-        <div class="scotcyd-text">
-          <h3>Learn With ScotCyd</h3>
-          <p>Steel framing is easier to understand when you can see it in action. Follow the series for short, practical videos showing how roll-forming technology and light-gauge steel manufacturing actually work.</p>
-          <div class="platform-links">
-            <a class="platform-btn" href="https://www.youtube.com/@scottsdalenz/shorts" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-youtube"></i> YouTube</a>
-            <a class="platform-btn" href="https://www.facebook.com/scottsdaleconstructionsystems/reels/"
-              target="_blank" rel="noopener noreferrer"><i class="fab fa-facebook"></i> Facebook</a>
-            <a class="platform-btn" href="https://www.instagram.com/scottsdaleconstructionsystems/reels/"
-              target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a>
-            <a class="platform-btn" href="https://www.linkedin.com/in/cydney-skeens/" target="_blank"
-              rel="noopener noreferrer"><i class="fab fa-linkedin"></i> LinkedIn</a>
+          <!-- RIGHT: the latest episodes. Built by script.js from the SCOTCYD_EPISODES
+               list at the top of that file — add a new episode there, nothing to change here. -->
+          <div class="scotcyd-episodes">
+            <p class="scotcyd-episodes-label">Latest Episodes</p>
+            <div class="episode-grid" id="episodeGrid">
+              <noscript>
+                <p><a class="platform-btn" href="https://www.youtube.com/@scottsdalenz/shorts" target="_blank"
+                    rel="noopener noreferrer"><i class="fab fa-youtube"></i> Watch the latest episodes on YouTube</a></p>
+              </noscript>
+            </div>
           </div>
+
         </div>
       </div>
-
-    </div>
-  </div>
-</section>
+    </section>
 
     <!-- ===================================================
        PROJECTS GALLERY — DARK MASONRY
@@ -662,6 +676,15 @@
             title="LinkedIn">
             <i class="fab fa-linkedin"></i> LinkedIn
           </a>
+          <a href="https://www.tiktok.com/@scotcyd" target="_blank" rel="noopener noreferrer" title="ScotCyd on TikTok">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M16.6 5.82A4.28 4.28 0 0 1 15.54 3h-3.09v12.4a2.59 2.59 0 0 1-2.59 2.5 2.6 2.6 0 0 1-2.6-2.6c0-1.72 1.66-3.01 3.37-2.48V9.66c-3.45-.46-6.47 2.22-6.47 5.64 0 3.33 2.76 5.7 5.69 5.7 3.14 0 5.69-2.55 5.69-5.7V9.01a7.35 7.35 0 0 0 4.3 1.38V7.3s-1.88.09-3.24-1.48z"/></svg> TikTok
+          </a>
+          <a href="https://rumble.com/user/scotcyd" target="_blank" rel="noopener noreferrer" title="ScotCyd on Rumble">
+            <svg class="icon-svg" viewBox="0 0 24 24" width="16" height="16" fill="currentColor" aria-hidden="true"><path d="M14.4528 13.5458c.8064-.6542.9297-1.8381.2756-2.6445a1.8802 1.8802 0 0 0-.2756-.2756 21.2127 21.2127 0 0 0-4.3121-2.776c-1.066-.51-2.256.2-2.4261 1.414a23.5226 23.5226 0 0 0-.14 5.5021c.116 1.23 1.292 1.964 2.372 1.492a19.6285 19.6285 0 0 0 4.5062-2.704v-.008zm6.9322-5.4002c2.0335 2.228 2.0396 5.637.014 7.8723-2.1445 2.3645-5.0212 3.6585-8.2325 3.7126-3.2112-.054-6.0879-1.348-8.2325-3.7126C2.9 13.7821 2.906 10.3737 4.9395 8.1457 7.0841 5.7712 9.9608 4.4772 13.1721 4.4232c3.2113.054 6.088 1.348 8.2329 3.7226z"/></svg> Rumble
+          </a>
+          <a href="https://www.youtube.com/@scottsdalenz/shorts" target="_blank" rel="noopener noreferrer" title="ScotCyd on YouTube">
+            <i class="fab fa-youtube"></i> YouTube
+          </a>
           <a href="https://share.google/lHoXPqYAc87M6GEiz" target="_blank" rel="noopener noreferrer"
             title="Google Business">
             <i class="fab fa-google"></i> Google Business
@@ -701,7 +724,7 @@
   <script src="models/lean-to-addition-structure.js"></script>
   <script src="models/powder-coat-booth-garage.js"></script>
 
-  <script src="script.js"></script>
+  <script src="script.js?v=3"></script>
   <script src="model-viewer.js"></script>
 </body>
 
